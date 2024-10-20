@@ -1,0 +1,21 @@
+.icone{
+  height: 64px;
+  width: 64px;
+  border-radius: 5px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &.bg-common{
+    background-color: white;
+  }
+  &.pink{ //pour plus tard avec les autres icones
+    background-color: #FD5181;
+    opacity: 10%;
+  }
+
+  img{
+    display: inline-block;
+  }
+}
