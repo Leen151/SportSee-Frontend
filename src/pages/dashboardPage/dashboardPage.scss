@@ -1,0 +1,36 @@
+.main-dashboard{
+
+  margin-top: 60px;
+  margin-left: 195px;
+  margin-right: 80px;
+
+  .home-message{
+    font-size: 48px;
+    font-weight: 500;
+    margin-bottom: 30px;
+
+    .firstname{
+      color: var(--red-color );
+    }
+  }
+
+  .container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .graphs{ 
+      border: 1px black solid;
+      width: 73%;
+      height: 150px;
+    }
+
+    .cards-keydata{
+      border: 1px black solid;
+      width: 23%;
+      height: 150px;
+    }
+  }
+
+
+}
