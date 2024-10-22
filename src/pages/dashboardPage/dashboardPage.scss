@@ -1,13 +1,13 @@
 .main-dashboard{
 
-  margin-top: 60px;
+  margin-top: 40px;
   margin-left: 195px;
   margin-right: 80px;
 
   .home-message{
     font-size: 48px;
     font-weight: 500;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 
     .firstname{
       color: var(--red-color );
@@ -28,9 +28,27 @@
     .cards-keydata{
       border: 1px black solid;
       width: 23%;
-      height: 150px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 35px;
     }
   }
+}
 
-
+@media screen and (max-width: 1400px){
+  .main-dashboard{
+    margin-top: 30px;
+    margin-left: 155px;
+    margin-right: 40px;
+  
+    .home-message{
+      margin-bottom: 30px;
+    }
+  
+    .cards-keydata{
+      gap: 15px;
+    }    
+  }
 }

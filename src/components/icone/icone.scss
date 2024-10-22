@@ -10,9 +10,17 @@
   &.bg-common{
     background-color: white;
   }
-  &.pink{ //pour plus tard avec les autres icones
-    background-color: #FD5181;
-    opacity: 10%;
+  &.bg-red{ //pour plus tard avec les autres icones
+    background-color: rgba(255,0,0,0.1);
+  }
+  &.bg-blue{ //pour plus tard avec les autres icones
+    background-color: rgba(74,184,255,0.1);
+  }
+  &.bg-yellow{ //pour plus tard avec les autres icones
+    background-color: rgba(249,206,35,0.1);
+  }
+  &.bg-pink{ //pour plus tard avec les autres icones
+    background-color: rgba(253,81,129,0.1);
   }
 
   img{
