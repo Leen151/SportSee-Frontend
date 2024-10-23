@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { getUserById } from '../../data/api';
 import { KeyCard } from "../../components/keyCard/KeyCard";
 import "./dashboardPage.scss"
+import { ChartActivity } from "../../components/chartActivity/ChartActivity";
 
 
 export const Dashboard = () => {
@@ -22,7 +23,7 @@ export const Dashboard = () => {
       <p className="home-message">Bonjour <span className="firstname" >{firstname}</span></p>
       <div className="container">
         <section className="graphs">
-
+          <ChartActivity id={id}/>
         </section>
         <section className="cards-keydata">
           {keyDatasTab.map(([keyName, value]) => (

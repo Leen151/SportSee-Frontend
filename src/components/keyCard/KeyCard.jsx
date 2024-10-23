@@ -47,9 +47,6 @@ export const KeyCard = ({keyDataName, value}) => {
       return <ErrorPage />; 
   }
 
-  console.log(urlIcon)
-
-
   return (
     <article className="key-card">
       <Icone icone={urlIcon} bg={bgColorCode}/>

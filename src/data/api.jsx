@@ -1,6 +1,8 @@
 import users from "../../public/dataUser.json"
 import {useState, useEffect} from 'react'
 
+import activities from "../../public/dataActivity.json"
+
 function getUsers(){
   const [users, setUsers] = useState([]);
 
@@ -40,4 +42,9 @@ function getUserById(id){
   // return user;
 }
 
-export { getUsers, getUserById}
+
+function getActivityById(id){
+ return activities.find(actyvity => actyvity.userId == id)
+}
+
+export { getUsers, getUserById, getActivityById}
