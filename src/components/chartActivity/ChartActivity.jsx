@@ -7,8 +7,32 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 
 export const ChartActivity = ({id}) => {
   const activity = getActivityById(id);
-  const sessions = activity.sessions;
-  console.log(sessions)
+  // const sessions = activity.sessions;
+
+  const sessions = activity.sessions.map((session, index) => {
+    session.dayNumber = index + 1; // ajoute une propriété dayNumber à chaque session et sa valeur est deduite de l'index (index+1 pour partir de 1)
+    return session;
+  });
+
+  let maxWeight = 0;
+  sessions.forEach(session => {
+    if (session.kilogram > maxWeight) {
+      maxWeight = session.kilogram;
+    }
+  });
+
+  let minWeight = maxWeight;
+  sessions.forEach(session => {
+    if (session.kilogram < minWeight){
+      minWeight = session.kilogram;
+    }
+  });
+
+  //afin d'avoir une echelle propre (de 2 en 2 si necessaire) il faut savoir si les 2 valeur sont paires ou impaires
+  let twiceIsEven = false
+  if (minWeight%2 === 0 && maxWeight%2 ===0){
+    twiceIsEven = true;
+  }
 
   const legendFormatter = (value) => {
     switch (value) {
@@ -24,18 +48,24 @@ export const ChartActivity = ({id}) => {
 
   return (
     <>
-      <div>ChartActivity {id}</div>
-      
-      <h2>Activité Quotidienne</h2>
+      <h2 className="title-activity-chart">Activité Quotidienne</h2>
+
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={sessions}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
-          <YAxis />
+          {/* pour n'avoir que les traits horizontaux de la grille + strokeDasharray="3 3" permet que la grille soit en pointillé avec les espace égaux aus trait  */}
+          <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3" /> 
+          {/* tick : permet de décaler les legende de 10px vers le bas */}
+          {/* axisLine=false permet de desactiver l'affichage des axes */}
+          {/* tickLine=false permet d'enlever les graduations */}
+          <XAxis dataKey="dayNumber" tick={{ dy: 10 }} axisLine={false} tickLine={false}/>          
+          <YAxis yAxisId="left" orientation="left" axisLine={false} tickLine={false}/>
+          {/* domain permet de définir les valeurs de l'échelle */}
+          <YAxis yAxisId="right" orientation="right" domain={[twiceIsEven ? minWeight - 2 : minWeight-1, maxWeight]} axisLine={false} tickLine={false} className="toto"/>
           <Tooltip />
           <Legend verticalAlign="top" align="right" formatter={legendFormatter} />
-          <Bar dataKey="kilogram" fill="#282D30" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(-5px)' }}/>
-          <Bar dataKey="calories" fill="#FF0101" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(5px)' }}/>
+          
+          <Bar dataKey="kilogram" fill="#282D30" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(-5px)' }} yAxisId="right" />          
+          <Bar dataKey="calories" fill="#FF0101" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(5px)' }} yAxisId="left" />
         </BarChart>
       </ResponsiveContainer>
     </>

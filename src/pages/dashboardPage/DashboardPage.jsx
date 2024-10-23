@@ -1,14 +1,35 @@
 import { useParams } from "react-router-dom";
 import { getUserById } from '../../data/api';
 import { KeyCard } from "../../components/keyCard/KeyCard";
-import "./dashboardPage.scss"
 import { ChartActivity } from "../../components/chartActivity/ChartActivity";
+import "./dashboardPage.scss"
+import {useState, useEffect} from 'react'
 
 
 export const Dashboard = () => {
 
   const { id } = useParams();
+  const userId = parseInt(id, 10);
   const user = getUserById(id)
+
+  console.log(user)
+  // const [user, setUser] = useState(null);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   getUserById(userId)
+  //     .then((userData) => {
+  //       setUser(userData); 
+  //       setError(null);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Erreur lors de la récupération des données:', error);
+  //       setError(error.message);
+  //     });
+  // }, [userId]);
+
+
+
 
   let firstname = user.userInfos.firstName
 
@@ -17,6 +38,13 @@ export const Dashboard = () => {
 
   const keyDatasTab = Object.entries(keyDatas);
   // console.log(keyDatasTab)
+
+  // if (error) {
+  //   return <p>Erreur: {error}</p>; // Afficher un message d'erreur si une erreur est survenue
+  // }
+
+  // if (!user) return <p>Chargement...</p>; // Afficher un message de chargement si les données ne sont pas encore là
+
 
   return (
     <main className="main-dashboard">

@@ -13,7 +13,7 @@ function getUsers(){
       setUsers(data);
     })
     .catch((error) => {
-      console.error("Erreur lors du chargement des données:", error);
+      console.error("Erreur lors de la récupération des données:", error);
     });
   }, []);
 
@@ -24,15 +24,25 @@ function getUsers(){
 
 function getUserById(id){
   return users.find(user => user.id == id);
+  // const getUserById = async (userSelected) => {
+  //   try {
+  //       const response = await fetch(`http://localhost:3000/user/${userSelected}`, {
+  //           method: "GET"
+  //       })
+
+  //       let data = await response.json();
+  //       return data.data;
+  //   } catch (error) {
+  //       console.error('Erreur UserInfo', error);
+  //   }
 
   // const [user, setUser] = useState();
 
   // useEffect(() => {
-  //   fetch("/public/dataUser.json")
+  //   fetch(`http://localhost:3000/user/12`)
   //     .then((response) => response.json())
   //     .then((data) => {
-  //       const foundUser = data.find((user) => user.id == id);
-  //       setUser(foundUser);
+  //       setUser(data);
   //     })
   //     .catch((error) => {
   //       console.error("Erreur lors de la récupération du logement:", error);
@@ -41,6 +51,20 @@ function getUserById(id){
 
   // return user;
 }
+
+// function getUserById(id) {
+//   return fetch(`http://localhost:3000/user/${id}`)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error(`Erreur HTTP: ${response.status}`); //permet de gérer les erreur http qui n'entrerai pas dans le catch
+//       }
+//       return response.json(); 
+//     })
+//     .catch((error) => {
+//       console.error('Erreur lors de la récupération des données:', error);
+//       throw error; 
+//     });
+// }
 
 
 function getActivityById(id){
