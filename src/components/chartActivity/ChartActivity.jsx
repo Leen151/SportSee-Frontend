@@ -2,7 +2,7 @@ import "./chartActivity.scss"
 import { getActivityById } from '../../data/api'
 
 import React, { PureComponent } from 'react';
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 export const ChartActivity = ({id}) => {
@@ -39,15 +39,27 @@ export const ChartActivity = ({id}) => {
       case 'kilogram':
         return 'Poids (kg)';
       case 'calories':
-        return 'Calories brûlées (kCal)';
+        return 'Calories brûlées (kcal)';
       default:
         return value;
     }
   };
 
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="tooltip-activity">
+          <p>{`${payload[0].value}kg`}</p>
+          <p>{`${payload[1].value}kcal`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
 
   return (
-    <>
+    <article className="chart-activity">
       <h2 className="title-activity-chart">Activité Quotidienne</h2>
 
       <ResponsiveContainer width="100%" height={400}>
@@ -61,13 +73,14 @@ export const ChartActivity = ({id}) => {
           <YAxis yAxisId="left" orientation="left" axisLine={false} tickLine={false}/>
           {/* domain permet de définir les valeurs de l'échelle */}
           <YAxis yAxisId="right" orientation="right" domain={[twiceIsEven ? minWeight - 2 : minWeight-1, maxWeight]} axisLine={false} tickLine={false} className="toto"/>
-          <Tooltip />
-          <Legend verticalAlign="top" align="right" formatter={legendFormatter} />
+          {/* tooltip est la popup au survol */}
+          <Tooltip content={<CustomTooltip />}/>
+          <Legend verticalAlign="top" align="right" formatter={legendFormatter} iconType="circle"/>
           
           <Bar dataKey="kilogram" fill="#282D30" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(-5px)' }} yAxisId="right" />          
           <Bar dataKey="calories" fill="#FF0101" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(5px)' }} yAxisId="left" />
         </BarChart>
       </ResponsiveContainer>
-    </>
+    </article>
   )
 }

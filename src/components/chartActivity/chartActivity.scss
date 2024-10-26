@@ -1,14 +1,52 @@
-.title-activity-chart{
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 24px;
-  margin-bottom: 30px;
-}
+.chart-activity{
+  background-color: var(--grey-bg);
+  position: relative;
+  border: 1px solid black;
+  border-radius: 5px;
 
-.recharts-cartesian-axis-tick-value tspan{
-  margin-top: 15px;
-}
-
-.recharts-default-legend li {
-  margin-bottom: 30px;
+  
+  .title-activity-chart{
+    position: absolute;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px;
+    padding: 24px 0 0 32px;
+  }
+  
+  //Les graduations de l'axe x sont décalé vers le bas
+  .recharts-cartesian-axis-tick-value tspan{
+    margin-top: 15px;
+  }
+  
+  //remonte et écarte les légente
+  .recharts-default-legend li {
+    margin: 24px 0 60px 10px;
+  }
+  
+  //les points de la légende sont plus petits
+  .recharts-legend-item svg{
+    height: 8px;
+    width: 8px;
+  }
+  
+  //Les points et le texte de la légende sont plus écarté
+  .recharts-legend-item span{
+    height: 8px;
+    width: 8px;
+    margin-left: 8px;
+  }
+  
+  .tooltip-activity{
+    background-color: #E60000;
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 7px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    line-height: 24px;
+  }
 }
