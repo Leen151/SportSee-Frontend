@@ -22,6 +22,21 @@
     .graphs{ 
       width: 73%;
       height: 150px;
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      .chart-activity{
+        grid-column: 1 / -1
+      }
+
+      .chart-perf,
+      .chart-score,
+      .chart-session{
+        border: 1px solid black;
+        grid-template-columns: repeat(3, 1fr);
+        height: 50px;
+      }
     }
 
     .cards-keydata{

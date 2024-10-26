@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import { getUserById } from '../../data/api';
 import { KeyCard } from "../../components/keyCard/KeyCard";
 import { ChartActivity } from "../../components/chartActivity/ChartActivity";
+import { ChartPerformance } from "../../components/chartPerformance/ChartPerformance";
+import { ChartSession } from "../../components/chartSession/ChartSession";
+import { ChartScore } from "../../components/chartScore/ChartScore";
 import "./dashboardPage.scss"
 import {useState, useEffect} from 'react'
 
@@ -52,6 +55,9 @@ export const Dashboard = () => {
       <div className="container">
         <section className="graphs">
           <ChartActivity id={id}/>
+          <ChartSession id={id} />
+          <ChartPerformance id={id} />
+          <ChartScore score={user.score} />
         </section>
         <section className="cards-keydata">
           {keyDatasTab.map(([keyName, value]) => (

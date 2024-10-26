@@ -2,6 +2,7 @@ import users from "../../public/dataUser.json"
 import {useState, useEffect} from 'react'
 
 import activities from "../../public/dataActivity.json"
+import performances from "../../public/dataPerformance.json"
 
 function getUsers(){
   const [users, setUsers] = useState([]);
@@ -68,7 +69,11 @@ function getUserById(id){
 
 
 function getActivityById(id){
- return activities.find(actyvity => actyvity.userId == id)
+ return activities.find(activity => activity.userId == id)
 }
+
+function getPerformanceById(id){
+  return performances.find(perf => perf.userId == id)
+ }
 
 export { getUsers, getUserById, getActivityById}
