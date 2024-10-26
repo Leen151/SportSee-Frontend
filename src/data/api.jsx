@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 
 import activities from "../../public/dataActivity.json"
 import performances from "../../public/dataPerformance.json"
+import sessions from "../../public/dataSessions.json"
 
 function getUsers(){
   const [users, setUsers] = useState([]);
@@ -68,12 +69,16 @@ function getUserById(id){
 // }
 
 
-function getActivityById(id){
+function getActivityByUserId(id){
  return activities.find(activity => activity.userId == id)
 }
 
-function getPerformanceById(id){
+function getPerformanceByUserId(id){
   return performances.find(perf => perf.userId == id)
- }
+}
 
-export { getUsers, getUserById, getActivityById}
+function getSessionsByUserId(id){
+  return sessions.find(sessionsUser => sessionsUser.userId == id)
+}
+
+export { getUsers, getUserById, getActivityByUserId, getSessionsByUserId, getPerformanceByUserId}

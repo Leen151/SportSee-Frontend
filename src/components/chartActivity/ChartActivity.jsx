@@ -1,12 +1,12 @@
 import "./chartActivity.scss"
-import { getActivityById } from '../../data/api'
+import { getActivityByUserId } from '../../data/api'
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 export const ChartActivity = ({id}) => {
-  const activity = getActivityById(id);
+  const activity = getActivityByUserId(id);
   // const sessions = activity.sessions;
 
   const sessions = activity.sessions.map((session, index) => {
@@ -62,17 +62,31 @@ export const ChartActivity = ({id}) => {
     <article className="chart-activity">
       <h2 className="title-activity-chart">Activité Quotidienne</h2>
 
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={320}>
         <BarChart data={sessions}>
           {/* pour n'avoir que les traits horizontaux de la grille + strokeDasharray="3 3" permet que la grille soit en pointillé avec les espace égaux aus trait  */}
           <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3" /> 
           {/* tick : permet de décaler les legende de 10px vers le bas */}
           {/* axisLine=false permet de desactiver l'affichage des axes */}
           {/* tickLine=false permet d'enlever les graduations */}
-          <XAxis dataKey="dayNumber" tick={{ dy: 10 }} axisLine={false} tickLine={false}/>          
-          <YAxis yAxisId="left" orientation="left" axisLine={false} tickLine={false}/>
+          <XAxis 
+          dataKey="dayNumber" 
+          tick={{ dy: 10 }} 
+          axisLine={false} 
+          tickLine={false}/>          
+          <YAxis 
+          yAxisId="left" 
+          orientation="left" 
+          axisLine={false} 
+          tickLine={false}/>
           {/* domain permet de définir les valeurs de l'échelle */}
-          <YAxis yAxisId="right" orientation="right" domain={[twiceIsEven ? minWeight - 2 : minWeight-1, maxWeight]} axisLine={false} tickLine={false} className="toto"/>
+          <YAxis 
+          yAxisId="right" 
+          orientation="right" 
+          domain={[twiceIsEven ? minWeight - 2 : minWeight-1, maxWeight]} 
+          axisLine={false} 
+          tickLine={false} 
+          className="toto"/>
           {/* tooltip est la popup au survol */}
           <Tooltip content={<CustomTooltip />}/>
           <Legend verticalAlign="top" align="right" formatter={legendFormatter} iconType="circle"/>
