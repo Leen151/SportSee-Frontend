@@ -25,18 +25,23 @@
 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      row-gap: 28px;
+      column-gap: 28px;
+
+      article{
+        border-radius: 5px;
+      }
 
       .chart-activity{
         grid-column: 1 / -1
       }
 
-      .chart-perf,
-      .chart-score,
-      .chart-session{
-        border: 1px solid black;
-        grid-template-columns: repeat(3, 1fr);
-        height: 50px;
-      }
+      // .chart-perf,
+      // .chart-score,
+      // .chart-session{
+      //   border: 1px solid black;
+      //   //grid-template-columns: repeat(3, 1fr);
+      // }
     }
 
     .cards-keydata{

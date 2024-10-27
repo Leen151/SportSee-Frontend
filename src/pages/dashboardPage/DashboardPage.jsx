@@ -15,7 +15,7 @@ export const Dashboard = () => {
   const userId = parseInt(id, 10);
   const user = getUserById(id)
 
-  console.log(user)
+  //console.log(user)
   // const [user, setUser] = useState(null);
   // const [error, setError] = useState(null);
 
@@ -31,8 +31,7 @@ export const Dashboard = () => {
   //     });
   // }, [userId]);
 
-
-
+  let score = user.score || user.todayScore || 0;
 
   let firstname = user.userInfos.firstName
 
@@ -57,7 +56,7 @@ export const Dashboard = () => {
           <ChartActivity id={id}/>
           <ChartSession id={id} />
           <ChartPerformance id={id} />
-          <ChartScore score={user.score} />
+          <ChartScore score={score} />
         </section>
         <section className="cards-keydata">
           {keyDatasTab.map(([keyName, value]) => (

@@ -1,0 +1,15 @@
+.chart-score{
+  background-color: var(--grey-bg);
+  position: relative;
+
+  .legend-chart{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+  }
+
+
+}

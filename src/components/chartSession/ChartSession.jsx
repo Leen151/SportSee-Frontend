@@ -2,7 +2,7 @@ import React from 'react'
 import "./chartSession.scss"
 import { getSessionsByUserId } from '../../data/api'
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Rectangle, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 export const ChartSession = ({id}) => {
@@ -59,7 +59,7 @@ export const ChartSession = ({id}) => {
           hide={true} 
           domain={[minTime, maxTime]}
           /> 
-          <Tooltip content={<CustomTooltip />}/>
+          <Tooltip content={<CustomTooltip />} cursor={true}/>
           <Line 
           type="monotone" 
           dataKey="sessionLength" 
