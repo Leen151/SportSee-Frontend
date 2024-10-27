@@ -13,46 +13,52 @@ export const Dashboard = () => {
 
   const { id } = useParams();
   const userId = parseInt(id, 10);
-  const user = getUserById(id)
+  console.log(id)
+  //const user = getUserById(id)
+  
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
-  //console.log(user)
-  // const [user, setUser] = useState(null);
-  // const [error, setError] = useState(null);
+  console.log("Le composant Dashboard est chargé.");
 
-  // useEffect(() => {
-  //   getUserById(userId)
-  //     .then((userData) => {
-  //       setUser(userData); 
-  //       setError(null);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Erreur lors de la récupération des données:', error);
-  //       setError(error.message);
-  //     });
-  // }, [userId]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getUserById(id); // Appelle le service
+        setUser(userData); // Met à jour l’état avec les données récupérées
+      } catch (error) {
+        setError(error.message); // Met à jour l’état avec le message d’erreur
+      }
+    };
+
+    fetchUser(); // Appelle la fonction asynchrone
+  }, [id]); // Se déclenche chaque fois que l'ID change
+
+
+  if (error) {
+    return <p>Erreur : {error}</p>;
+  }
+
+  if (!user) {
+    return <p>Chargement des données...</p>;
+  }
+
+  console.log(user)
 
   let score = user.score || user.todayScore || 0;
 
   let firstname = user.userInfos.firstName
 
   const keyDatas = user.keyData
-  // console.log(keyDatas)
+  console.log(keyDatas)
 
-  const keyDatasTab = Object.entries(keyDatas);
-  // console.log(keyDatasTab)
-
-  // if (error) {
-  //   return <p>Erreur: {error}</p>; // Afficher un message d'erreur si une erreur est survenue
-  // }
-
-  // if (!user) return <p>Chargement...</p>; // Afficher un message de chargement si les données ne sont pas encore là
-
-
+  const keyDatasTab = Object.entries(keyDatas); //transforme l'objet en tableau clé valeur
+  
   return (
     <main className="main-dashboard">
       <p className="home-message">Bonjour <span className="firstname" >{firstname}</span></p>
       <div className="container">
-        <section className="graphs">
+        <section className="graphs">          
           <ChartActivity id={id}/>
           <ChartSession id={id} />
           <ChartPerformance id={id} />
