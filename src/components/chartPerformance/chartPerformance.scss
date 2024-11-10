@@ -1,12 +1,16 @@
-// .recharts-polar-grid {
-//   width: 70%;
-// }
 .chart-perf{
   background-color: var(--hard-grey);
+  display: flex;
+  align-items: center;
+}
 
-  .recharts-text {
+@media screen and (max-width: 1400px){
+  .chart-perf .recharts-text {
     font-size: 10px;
-    font-weight: 500;
-    line-height: 24px;
   }
+
+  .chart-perf .recharts-responsive-container {
+    height: 70% !important; 
+  }
+  
 }

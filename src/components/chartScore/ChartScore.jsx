@@ -1,40 +1,50 @@
-import React, { useState, useEffect, useRef } from 'react';
-import "./chartScore.scss"
-
-import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
+import React, { useEffect, useState } from 'react';
+import { RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
+import { Error } from '../error/Error';
+import "./chartScore.scss";
 
 
 export const ChartScore = ({score}) => {
+  //affichage intérmédiaire (cas de nullité)
+  if(!score){
+    return (
+      <article className="chart-score">
+        <Error />
+      </article>
+    )
+  }
+
+  ///////formatage des données///////
+  const data = [{
+    name: "Score",
+    value: score,
+    fill: "#FF0101"
+  }]
 
 
-  // const screenWidth = window.innerWidth;
-  // console.log(screenWidth)
-  // const articleWidth = articleWidthCalculation(screenWidth)
-
-  // rendre le diamètre du graph responsive
+  ///////affichage final///////
+  //rendre le diamètre du graph responsive
+  //barSize donne sa taille au grahique, je cherche donc à rendre cette valeur dynamique
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);  
+    //retrait de l'event
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  const articleWidth = articleWidthCalculation(screenWidth);
-  const barSize = articleWidth * 0.75;
+  const approximateCardWidth = screenWidth * 0.18;
+  const barSize = approximateCardWidth <= 260 ? approximateCardWidth * 0.75 : 260 * 0.75 ;
 
-  const data = [{
-      name: "Score",
-      value: score,
-      fill: "#FF0101"
-    }]
-
+  //rendu
   return (
     <article className="chart-score">
-      <h2>Score</h2>
+      <h2 className="title-score-chart">Score</h2> 
 
-        <ResponsiveContainer width="100%" height={260}>
+        <ResponsiveContainer width="100%">
           <RadialBarChart
             // les 2 à 0 correspondent à un disque plein (pas un donut)
             innerRadius="0%"
@@ -46,9 +56,8 @@ export const ChartScore = ({score}) => {
           <RadialBar
             data={[{ value: 1 }]} //un "score" de 1 fictif pour avoir le disque blanc complet 
             dataKey="value" 
-            barSize={barSize}
+            barSize={barSize} //c'est cette valeur qui va donner sa taille au graphique
             fill="white"
-            isAnimationActive={false}
           />
           <RadialBar
             dataKey="value"
@@ -59,21 +68,10 @@ export const ChartScore = ({score}) => {
         </ResponsiveContainer>
         
         <div className="legend-chart">
-          <p>{Math.round(score * 100)}%</p>
-          <p>de votre</p>
-          <p>objectif</p>
+          <p className="legend-score">{Math.round(score * 100)}%</p>
+          <p className="legend-text">de votre</p>
+          <p className="legend-text">objectif</p>
         </div>
     </article>
   )
-}
-
-function articleWidthCalculation(windowWidth){
-  const sidebar = 115;
-  const margin = 80;
-  const gap = 28;
-  const nbArticle = 3;
-  const partOfScreen = 0.73;
-
-  const toto = (((windowWidth - sidebar - (2 * margin)) * partOfScreen) - (2 * gap))/nbArticle
-  return toto
 }

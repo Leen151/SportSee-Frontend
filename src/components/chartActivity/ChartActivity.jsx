@@ -1,49 +1,45 @@
-import "./chartActivity.scss"
-import { getActivityByUserId } from '../../data/api'
+import React, { useEffect, useState } from 'react';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Loader } from "../../components/loader/Loader";
+import { Error } from '../error/Error';
+import { getMax, getMin } from "../../helper/helper";
+import "./chartActivity.scss";
 
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { getActivityByUserId } from '../../data/dataService';
 
 export const ChartActivity = ({id}) => {
-  const activity = getActivityByUserId(id);
-  // const sessions = activity.sessions;
+  ///////récupération des données///////
+  const [activity, setActivity] = useState(null);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchActivity = async () => {
+      try {
+        const userActivity = await getActivityByUserId(id);
+        setActivity(userActivity);
+      } catch (error) {
+        setError(error.message);
+      } 
+    };
+    fetchActivity();
+  }, [id]);
+
+  //affichage intermédiaire
+  if (error) {
+    return  <Error error={error}/>
+  }
+  if (!activity) {
+    return <Loader />;
+  }
+
+  ///////formatage des données///////
   const sessions = activity.sessions.map((session, index) => {
-    session.dayNumber = index + 1; // ajoute une propriété dayNumber à chaque session et sa valeur est deduite de l'index (index+1 pour partir de 1)
+    session.dayNumber = index + 1; // ajoute une propriété dayNumber à chaque session (index+1 pour partir de 1)
     return session;
   });
 
-  let maxWeight = 0;
-  sessions.forEach(session => {
-    if (session.kilogram > maxWeight) {
-      maxWeight = session.kilogram;
-    }
-  });
-
-  let minWeight = maxWeight;
-  sessions.forEach(session => {
-    if (session.kilogram < minWeight){
-      minWeight = session.kilogram;
-    }
-  });
-
-  //afin d'avoir une echelle propre (de 2 en 2 si necessaire) il faut savoir si les 2 valeur sont paires ou impaires
-  let twiceIsEven = false
-  if (minWeight%2 === 0 && maxWeight%2 ===0){
-    twiceIsEven = true;
-  }
-
-  const legendFormatter = (value) => {
-    switch (value) {
-      case 'kilogram':
-        return 'Poids (kg)';
-      case 'calories':
-        return 'Calories brûlées (kcal)';
-      default:
-        return value;
-    }
-  };
+  let maxWeight = getMax(sessions, "kilogram");
+  let minWeight = getMin(sessions, "kilogram", maxWeight);
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -55,46 +51,75 @@ export const ChartActivity = ({id}) => {
       );
     }
     return null;
-  };
+  };  
 
-
+  ///////affichage final///////
+  //rendu des données
   return (
     <article className="chart-activity">
       <h2 className="title-activity-chart">Activité Quotidienne</h2>
 
-      <ResponsiveContainer width="100%" height={320}>
-        <BarChart data={sessions}>
-          {/* pour n'avoir que les traits horizontaux de la grille + strokeDasharray="3 3" permet que la grille soit en pointillé avec les espace égaux aus trait  */}
-          <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3" /> 
-          {/* tick : permet de décaler les legende de 10px vers le bas */}
-          {/* axisLine=false permet de desactiver l'affichage des axes */}
-          {/* tickLine=false permet d'enlever les graduations */}
-          <XAxis 
-          dataKey="dayNumber" 
-          tick={{ dy: 10 }} 
-          axisLine={false} 
-          tickLine={false}/>          
-          <YAxis 
-          yAxisId="left" 
-          orientation="left" 
-          axisLine={false} 
-          tickLine={false}/>
-          {/* domain permet de définir les valeurs de l'échelle */}
-          <YAxis 
-          yAxisId="right" 
-          orientation="right" 
-          domain={[twiceIsEven ? minWeight - 2 : minWeight-1, maxWeight]} 
-          axisLine={false} 
-          tickLine={false} 
-          className="toto"/>
-          {/* tooltip est la popup au survol */}
-          <Tooltip content={<CustomTooltip />}/>
-          <Legend verticalAlign="top" align="right" formatter={legendFormatter} iconType="circle"/>
-          
-          <Bar dataKey="kilogram" fill="#282D30" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(-5px)' }} yAxisId="right" />          
-          <Bar dataKey="calories" fill="#FF0101" barSize={10} radius={[10, 10, 0, 0]} style={{ transform: 'translateX(5px)' }} yAxisId="left" />
-        </BarChart>
-      </ResponsiveContainer>
+      <ResponsiveContainer width="100%" >
+				<BarChart 
+          data={sessions} 
+          width="100%"
+          barGap={8}
+          margin={{
+            bottom: 15,
+            right: 15,
+            left: 20
+          }}
+          >
+					<CartesianGrid vertical={false} strokeDasharray="3 3"/>
+					<XAxis
+						dataKey="dayNumber"
+						tick={{fill: "#74798C", dy: 10}} //couleur + décalage vers le bas des légendes des l'axe x  
+						stroke="#DEDEDE" strokeWidth={2} //trait plein et gris pour l'axe x 
+						tickLine={false} // permet d'enlever les tirets de graduations
+					/>
+					<YAxis
+						yAxisId="kilogram" //lie l'axe avec 1 des 2 barres
+						orientation="right"
+						tickMargin={20}
+						tick={{ fill: "#74798C"}}
+						tickLine={false}
+						axisLine={false}
+						domain={[minWeight-1, maxWeight]} // defini où commence et fini les graduations de l'axe Y
+						tickCount={3} //on aura 3 graduations sur l'axe Y
+					/>
+          {/* en inversant les axes Y, c'est le 1er qui définie le nombre de lignes de la grille*/}
+					<YAxis hide yAxisId="calories" /> 
+					<Tooltip
+						content={<CustomTooltip />}
+						cursor={{ fill: 'rgba(196, 196, 196, 0.5)' }} //change la couleur du bg au survol
+					/>
+					<Bar          
+						dataKey="kilogram"
+						fill="#282D30"
+            barSize={10}
+						radius={[10, 10, 0, 0]}
+						name="Poids (kg)" //controle l'affichage de la légende
+						yAxisId="kilogram" //liaison avec un axe Y
+					/>
+					<Bar
+						dataKey="calories"
+						fill="#FF0101"
+            barSize={10}
+						radius={[10, 10, 0, 0]}
+						name="Calories brûlées (kCal)"
+						yAxisId="calories"
+					/>
+					<Legend            
+						verticalAlign="top"
+						align="right"
+						iconType="circle"
+						iconSize="8"
+            margin={{
+              right: 8 //controle l'écart entre les légendes
+            }}            
+					/>
+				</BarChart>
+			</ResponsiveContainer>
     </article>
   )
 }

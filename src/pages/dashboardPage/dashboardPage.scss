@@ -1,17 +1,21 @@
 .main-dashboard{
-
-  margin-top: 40px;
+  margin-top: 20px;
   margin-left: 195px;
   margin-right: 80px;
 
   .home-message{
-    font-size: 48px;
+    font-size: 46px;
     font-weight: 500;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 
     .firstname{
       color: var(--red-color );
     }
+  }
+
+  .congratulations{
+    margin-bottom: 40px;
+    font-size: 18px;
   }
 
   .container{
@@ -21,8 +25,6 @@
 
     .graphs{ 
       width: 73%;
-      height: 150px;
-
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       row-gap: 28px;
@@ -30,44 +32,45 @@
 
       article{
         border-radius: 5px;
+        height: 29vh;
       }
 
       .chart-activity{
-        grid-column: 1 / -1
+        grid-column: 1 / -1;
+        height: 36vh;
       }
-
-      // .chart-perf,
-      // .chart-score,
-      // .chart-session{
-      //   border: 1px solid black;
-      //   //grid-template-columns: repeat(3, 1fr);
-      // }
     }
 
     .cards-keydata{
-      border: 1px black solid;
       width: 23%;
-
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 35px;
     }
   }
 }
 
 @media screen and (max-width: 1400px){
   .main-dashboard{
-    margin-top: 30px;
     margin-left: 155px;
     margin-right: 40px;
   
     .home-message{
+      font-size: 38px;
+    } 
+    .congratulations{
       margin-bottom: 30px;
+      font-size: 14px;
+    }  
+    .container {
+      .graphs{
+        column-gap: 20px;
+        width: 74%;
+      }
+      .cards-keydata{
+        width: 24%;
+      }
+
     }
-  
-    .cards-keydata{
-      gap: 15px;
-    }    
   }
 }

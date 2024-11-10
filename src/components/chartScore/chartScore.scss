@@ -2,6 +2,13 @@
   background-color: var(--grey-bg);
   position: relative;
 
+  .title-score-chart{
+    position: absolute;
+    font-size: 15px;
+    color: var(--hard-grey);
+    padding: 24px 0 0 30px;
+  }
+
   .legend-chart{
     position: absolute;
     top: 50%;
@@ -9,7 +16,33 @@
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 2;
+
+    .legend-score{
+      color: var(--hard-grey);
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .legend-text{
+      color: var(--medium-grey);
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
+}
 
-
+@media screen and (max-width: 1400px){
+  .chart-score{
+    .title-score-chart{
+      padding: 16px 0 0 20px;
+    }
+  
+    .legend-chart .legend-score{
+      font-size: 22px;
+    }
+    .legend-chart .legend-text{
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
 }
