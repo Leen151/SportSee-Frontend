@@ -1,7 +1,7 @@
 .key-card{
   // height: 125px;
   background-color: var(--grey-bg);
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 32px ;
 
   display: flex;
@@ -45,10 +45,6 @@
     .text{  
       .value{
         font-size: 18px;
-      }
-  
-      .key-texte{
-        color: var(--medium-grey);
       }
     }
   }

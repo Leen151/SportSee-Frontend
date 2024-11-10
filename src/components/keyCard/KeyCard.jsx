@@ -1,59 +1,58 @@
-import React from 'react'
-import "./keyCard.scss"
-import { Icone } from '../icone/Icone'
+import React from 'react';
+import "./keyCard.scss";
+import { Icone } from "../icone/Icone";
 import { ErrorPage } from "../../pages/errorPage/ErrorPage";
 
-import Fire from "../../assets/iEnergy.svg"
-import Chicken from "../../assets/iChicken.svg"
-import Apple from "../../assets/iApple.svg"
-import Cheeseburger from "../../assets/iCheeseburger.svg"
+import Fire from "../../assets/iEnergy.svg";
+import Chicken from "../../assets/iChicken.svg";
+import Apple from "../../assets/iApple.svg";
+import Cheeseburger from "../../assets/iCheeseburger.svg";
 
 export const KeyCard = ({keyDataName, value}) => {
-  let keyText;
-  let bgColorCode;
-  let urlIcon;
-  let unit;
+  /////////formatage des données///////
+  const keyDataObject = {
+    calorieCount: {
+      keyText: "Calories",
+      bgColorCode: "bg-red",
+      urlIcon: Fire,
+      unit: "kCal",
+    },
+    proteinCount: {
+      keyText: "Protéines",
+      bgColorCode: "bg-blue",
+      urlIcon: Chicken,
+      unit: "g",
+    },
+    carbohydrateCount: {
+      keyText: "Glucides",
+      bgColorCode: "bg-yellow",
+      urlIcon: Apple,
+      unit: "g",
+    },
+    lipidCount: {
+      keyText: "Lipides",
+      bgColorCode: "bg-pink",
+      urlIcon: Cheeseburger,
+      unit: "g",
+    },
+  };
 
-  switch(keyDataName){
-    case "calorieCount":
-      keyText =  "Calories";
-      bgColorCode = "bg-red"
-      urlIcon = Fire
-      unit = "kCal"
-      break
+  const keyData = keyDataObject[keyDataName];
 
-    case "proteinCount":
-      keyText = "Protéines";
-      bgColorCode = "bg-blue"
-      urlIcon = Chicken
-      unit = "g"
-      break
-
-    case "carbohydrateCount":
-      keyText = "Glucides";
-      bgColorCode = "bg-yellow"
-      urlIcon = Apple
-      unit = "g"
-      break
-
-    case "lipidCount":
-      keyText = "Lipides";
-      bgColorCode = "bg-pink"
-      urlIcon = Cheeseburger
-      unit = "g"
-      break
-
-    default:
-      return <ErrorPage />; 
+  ////////affichage////////
+  //cas de nullité
+  if (!keyData) {
+    return <ErrorPage error="keyDatas : incorrect data" />;
   }
 
+  //rendu des données
   return (
-    <article className="key-card">
-      <Icone icone={urlIcon} bg={bgColorCode}/>
+    <article className={`key-card ${keyDataName}`}>
+      <Icone icone={keyData.urlIcon} bg={keyData.bgColorCode}/>
       <div className="text">
-        <p className="value">{value}{unit}</p>
-        <p className="key-texte">{keyText}</p>
+        <p className="value">{value}{keyData.unit}</p>
+        <p className="key-texte">{keyData.keyText}</p>
       </div>
     </article>
-  )
-}
+  );
+};
