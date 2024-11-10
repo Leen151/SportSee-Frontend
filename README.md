@@ -27,6 +27,12 @@ npm run dev
 - **Recharts** : Librairie pour créer des graphiques interactifs.
 - **npm** : Gestionnaire de paquets JavaScript.
 
+### Récupération des données
+
+Les données peuvent être récupérer depuis un fichier json (mock) ou depuis l'api.
+Le service dataService permet de choisir l'une ou l'autre de ses 2 option grace à la valeur de la variable useAPI.
+Le prenom de l'utilisateur 12 a été modifié dans les données mockées afin de souligner la diffférence.
+
 ### Auteurs
 
 Ce projet a été réalisé par **Leen151**.
