@@ -1,8 +1,8 @@
 import React from 'react'
 import "./button.scss"
 
-export const Button = ({firstname}) => {
+export const Button = ({label}) => {
   return (
-    <button>{firstname}</button>
+    <button>{label}</button>
   )
 }
